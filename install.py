@@ -2,6 +2,7 @@
 import os
 
 url_prefix = 'http://mirror.fishros.com/install/'
+# url_prefix = './'
 
 base_url = url_prefix+'tools/base.py'
 
@@ -18,7 +19,7 @@ tools_type_map = {
 
 
 tools ={
-    1: {'tip':'一键安装(推荐):ROS(支持ROS/ROS2,树莓派Jetson)',                 'type':INSTALL_ROS,     'tool':url_prefix+'tools/tool_install_ros.py' ,'dep':[4,5] },
+    1: {'tip':'一键安装(小鱼推荐):ROS(支持ROS/ROS2,树莓派Jetson)',                 'type':INSTALL_ROS,     'tool':url_prefix+'tools/tool_install_ros.py' ,'dep':[4,5] },
     2: {'tip':'一键安装:github桌面版(小鱼常用的github客户端)',             'type':INSTALL_SOFTWARE,     'tool':url_prefix+'tools/tool_install_github_desktop.py' ,'dep':[] },
     3: {'tip':'一键安装:rosdep(小鱼的rosdepc,又快又好用)',                 'type':INSTALL_ROS,    'tool':url_prefix+'tools/tool_config_rosdep.py' ,'dep':[] },
     4: {'tip':'一键配置:ROS环境(快速更新ROS环境设置,自动生成环境选择)',     'type':INSTALL_ROS,     'tool':url_prefix+'tools/tool_config_rosenv.py' ,'dep':[] },
@@ -35,7 +36,7 @@ tools ={
     15: {'tip':'一键安装：QQ for Linux', 'type':INSTALL_SOFTWARE, 'tool': url_prefix+'tools/tool_install_qq.py', 'dep':[]},
     16: {'tip':'一键安装：系统自带ROS (！！警告！！仅供特殊情况下使用)', 'type':INSTALL_ROS, 'tool': url_prefix+'tools/tool_install_ros1_systemdefault.py', 'dep':[5]},
     17: {'tip':'一键配置: Docker代理(支持VPN+代理服务两种模式)', 'type':CONFIG_TOOL, 'tool': url_prefix+'tools/tool_config_docker_proxy.py', 'dep':[]},
-    # 77: {'tip':'测试模式:运行自定义工具测试'},
+    77: {'tip':'测试模式:运行自定义工具测试', 'type':INSTALL_SOFTWARE, 'tool':'./tools/test.py', 'dep':[] },
     }
 # 
 
@@ -60,9 +61,9 @@ def main():
     from tools.base import encoding_utf8,osversion,osarch
     from tools.base import run_tool_file,download_tools
     from tools.base import config_helper
-    # PrintUtils.print_delay(f"检测到你的系统版本信息为{osversion.get_codename()},{osarch}",0.001)
+    PrintUtils.print_delay(f"检测到你的系统版本信息为{osversion.get_codename()},{osarch}",0.001)
     # 使用量统计
-    CmdTask("wget https://fishros.org.cn/forum/topic/1733 -O /tmp/t1733 -q && rm -rf /tmp/t1733").run()
+    # CmdTask("wget https://fishros.org.cn/forum/topic/1733 -O /tmp/t1733 -q && rm -rf /tmp/t1733").run()
 
     # check base config
     if not encoding_utf8:
@@ -79,7 +80,7 @@ def main():
                         .-~~~~~~~~~-._       _.-~~~~~~~~~-.
                     __.'              ~.   .~              `.__
                 .'//     开卷有益        \./     书山有路     \\ `.
-                .'// 可以多看看小鱼的文章   |    关注公众号鱼香ROS  \\ `.
+                .'// 可以多看看小鱼的文章   |    关注公众号鱼香ROS & DevFrank  \\ `.
             .'// .-~~~~~~~~~~~~~~-._     |     _,-~~~~~~~~~~~. \\`.
             .'//.-"                 `-.  |  .-'                 "-.\\`.
         .'//______.============-..   \ | /   ..-============.______\\`.
@@ -95,8 +96,9 @@ def main():
 如果觉得工具好用,请给个star,如果你想和小鱼一起编写工具,请关注微信公众号<鱼香ROS>,联系小鱼
 更多工具教程，请访问鱼香ROS官方网站:http://fishros.com
     """
+    # print info
     PrintUtils.print_delay(tip,0.001)
-    PrintUtils.print_delay(book,0.001)
+    PrintUtils.print_delay(book,0)
 
 
     # download tools
@@ -104,6 +106,7 @@ def main():
     # for tool_id in tools.keys(): choose_dic[tool_id]  = tools[tool_id]["tip"]
     code,result = ChooseWithCategoriesTask(tool_categories, tips="---众多工具，等君来用---",categories=tools_type_map).run()
 
+    # 0 - quit
     if code==0: PrintUtils().print_success("是觉得没有合胃口的菜吗？那快联系的小鱼增加菜单吧~")
     elif code==77: 
         code,result = ChooseTask(choose_dic, "请选择你要测试的程序:").run()

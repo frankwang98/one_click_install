@@ -132,7 +132,7 @@ ros2_dist_dic = {
 
 class Tool(BaseTool):
     def __init__(self):
-        self.name = "一键安装ROS和ROS2,支持树莓派Jetson"
+        self.name = "一键安装ROS和ROS2,支持树莓派Jetson香橙派"
         self.type = BaseTool.TYPE_INSTALL
         self.autor = '小鱼'
 
